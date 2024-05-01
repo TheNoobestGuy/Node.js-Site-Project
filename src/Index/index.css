@@ -44,20 +44,24 @@ p.error {
     cursor: pointer;
 }
 
+/* iFrame */
 #Main-frame {
+    transition: opacity 0.5s ease-in-out;
     border: none;
 }
 
-/* Registration window */
+/* window popup */
 #label {
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
     left: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-.popout {
+.popup {
     display: none;
     position: fixed;
     z-index: 1;
@@ -69,7 +73,7 @@ p.error {
     font-family: Arial, Helvetica, sans-serif;
   }
 
-.registration-content {
+.window-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -79,7 +83,7 @@ p.error {
     border-radius: 20px;
   }
   
-.close {
+.registrationClose {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -89,8 +93,8 @@ p.error {
     left: 23px;
   }
   
-.close:hover,
-.close:focus {
+.registrationClose:hover,
+.registrationClose:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -117,3 +121,21 @@ p.error {
     position: relative;
     right: 20px;
 }
+
+/* Login popup */
+.loginClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative;
+    top: -20px;
+    left: 23px;
+  }
+  
+.loginClose:hover,
+.loginClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }

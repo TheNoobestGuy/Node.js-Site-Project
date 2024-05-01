@@ -1,6 +1,12 @@
-var registration_window = document.getElementById("registrationPoput");
-var registration_button = document.getElementById("popupButton");
-var registrations_close = document.getElementsByClassName("close")[0];
+const registration_window = document.getElementById("registrationPopup");
+const registration_button = document.getElementById("registrationButton");
+const registrations_close = document.getElementsByClassName("registrationClose")[0];
+
+const login_window = document.getElementById("loginPopup");
+const login_button = document.getElementById("loginButton");
+const login_close = document.getElementsByClassName("loginClose")[0];
+
+const iframe = document.getElementById('Main-frame');
 
 // Registration window
 registration_button.onclick = function() {
@@ -11,26 +17,47 @@ registrations_close.onclick = function() {
     registration_window.style.display = "none";
 }
 
+// Login window
+login_button.onclick = function() {
+    login_window.style.display = "block";
+}
+
+login_close.onclick = function() {
+    login_window.style.display = "none";
+}
+
+// Window handling
 window.onclick = function(event) {
     if (event.target == registration_window) {
         registration_window.style.display = "none";
     }
+    else if (event.target == login_window) {
+        login_window.style.display = "none";
+    }
 }
 
+// iFrame handler
 function changeIframe(url) {
-    var currentAdress = window.location.href;
-    var adress = currentAdress + url;
+    const currentAdress = window.location.href;
+    const address = currentAdress + url;
 
-    var iframe = document.getElementById("Main-frame");
-    iframe.src = adress;
+    iframe.style.opacity = '0';
+
+    setTimeout(() => {
+        iframe.src = adress;
+        iframe.style.opacity = '1';
+    }, 300)
 }
 
+
+
+// Validator of registration
 const userName = document.querySelector('#username')
 const email = document.querySelector('#email')
 const password1 = document.querySelector('#pass1')
 const password2 = document.querySelector('#pass2')
 const clearButton = document.querySelector('.reset')
-const sendButton = document.querySelector('.send')
+const sendReg = document.querySelector('.sendReg')
 
 let correctness = 1;
 
@@ -63,7 +90,7 @@ function checkIsItEmpty(input) {
 
 function checkInputLength(input, minValue) {
     if (input.value.length < minValue && input.value.length != 0) {
-        showOrHideErrorMessage(input, `Pole powinno zawierać minimum ${minValue} znaków`);
+        showOrHideErrorMessage(input, `Field should consist minimum ${minValue} chars`);
     }
     else {
         showOrHideErrorMessage(input, '');
@@ -74,7 +101,7 @@ function checkEmail(email) {
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (!regex.test(email.value) && email.value.length != 0) {
-        showOrHideErrorMessage(email, 'Adres email jest nieprawidłowy');
+        showOrHideErrorMessage(email, 'Email address is invalid');
     }
     else {
         showOrHideErrorMessage(email, '');
@@ -83,14 +110,14 @@ function checkEmail(email) {
 
 function checkPassword() {
     if (password1.value !== password2.value && password2.value.length != 0) {
-        showOrHideErrorMessage(password2, 'Hasła są różne');
+        showOrHideErrorMessage(password2, 'Passwords are not same');
     }
     else {
         showOrHideErrorMessage(password2, '');
     }
 }
 
-function clear() {
+function clearReg() {
     // Wyczyść tekst
     userName.value = '';
     email.value = '';
@@ -121,9 +148,8 @@ password2.addEventListener('input', () => {
     checkPassword();
 })
 
-sendButton.addEventListener('click', (e) => {
+sendReg.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('x');
     checkIsThereError(userName);
     checkIsThereError(email);
     checkIsThereError(password1);
@@ -136,20 +162,20 @@ sendButton.addEventListener('click', (e) => {
 
     if(correctness == 1 && !userNameEmpty && !emailEmpty && !password1Empty && !password2Empty)
     {
-        alert('Twoje dane zostały wysłane');
-        clear();
+        alert('You has been registered!');
+        clearReg();
     }
     else if(userNameEmpty && emailEmpty && password1Empty && password2Empty)
     {
-        alert('Arkusz pusty');
+        alert('Spreadsheet is empty.');
     }
     else if ((userNameEmpty || emailEmpty || password1Empty || password2Empty) && correctness == 1)
     {
-        alert('Uzupełnij dane');
+        alert('Fill a data!');
     }
     else
     {
-        alert('Niepoprawne dane');
+        alert('Invalid data has been introduced!');
     }
 
     correctness = 1; 
@@ -158,5 +184,65 @@ sendButton.addEventListener('click', (e) => {
 clearButton.addEventListener('click', (e) => {
     e.preventDefault();
 
-    clear();
+    clearReg();
+})
+
+// Validator of login
+const emailLogin = document.querySelector('#emailLogin');
+const passowrdLogin = document.querySelector('#passLogin');
+const sendLog = document.querySelector('.sendLog')
+
+emailLogin.addEventListener('input', () => {
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!regex.test(emailLogin.value) && emailLogin.value.length != 0) {
+        showOrHideErrorMessage(emailLogin, 'Email adress is invalid');
+    }
+    else {
+        showOrHideErrorMessage(emailLogin, '');
+    }
+})
+
+passowrdLogin.addEventListener('input', () => {
+    checkInputLength(passowrdLogin, 8);
+    checkPassword();
+})
+
+function clearLog() {
+    // Wyczyść tekst
+    emailLogin.value = '';
+    passowrdLogin.value = '';
+
+    // Ukryj błędy
+    showOrHideErrorMessage(emailLogin, '');
+    showOrHideErrorMessage(passowrdLogin, '');
+}
+
+sendLog.addEventListener('click', (e) => {
+    e.preventDefault();
+    checkIsThereError(emailLogin);
+    checkIsThereError(passowrdLogin);
+
+    const emailEmpty = checkIsItEmpty(emailLogin);
+    const passwordEmpty = checkIsItEmpty(passowrdLogin);
+
+    if(correctness == 1 && !emailEmpty && !passwordEmpty)
+    {
+        alert('You has been loged!');
+        clearLog();
+    }
+    else if(emailEmpty && passwordEmpty)
+    {
+        alert('Spreadsheet is empty.');
+    }
+    else if ((emailEmpty || passwordEmpty) && correctness == 1)
+    {
+        alert('Fill a data!');
+    }
+    else
+    {
+        alert('Invalid data has been introduced!');
+    }
+
+    correctness = 1; 
 })

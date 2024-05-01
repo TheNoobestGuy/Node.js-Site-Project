@@ -10,49 +10,71 @@
 </head>
 <body>
     <!-- Registration Popout -->
-    <div id="registrationPoput" class="popout">
-        <div class="registration-content">
-          <span class="close">&times;</span>
+    <div id="registrationPopup" class="popup">
+        <div class="window-content">
+          <span class="registrationClose">&times;</span>
           <label id="label">Register yourself!</label>
           <form action="" class="box">
             <div class="form_box">
-                <label for="username">Nazwa użytkownika: </label>
-                <input class="typeText" type="text" id="username" placeholder="podaj nazwę użytkownika" required>
+                <label for="username">Username: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <input class="typeText" type="text" id="username" placeholder="Type desired username" required>
                 <p class="error"></p>
             </div>
             <div class="form_box">
-                <label for="email">E-mail: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-                <input class="typeText" type="email" id="email" placeholder="podaj adres email" required>
+                <label for="email">E-mail: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <input class="typeText" type="email" id="email" placeholder="Type your email" required>
                 <p class="error"></p>
             </div>
             <div class="form_box">
-                <label for="pass1">Hasło: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-                <input class="typeText" type="password" id="pass1" placeholder="podaj hasło" required>
+                <label for="pass1">Password: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <input class="typeText" type="password" id="pass1" placeholder="Type desired password" required>
                 <p class="error"></p>
             </div>
             <div class="form_box">
-                <label for="pass2">Powtórz hasło: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
-                <input class="typeText" type="password" id="pass2" placeholder="powtórz hasło" required>
+                <label for="pass2">Repeat password: </label>
+                <input class="typeText" type="password" id="pass2" placeholder="Repeat your password" required>
                 <p class="error"></p>
             </div>
             <div class="buttons">
-                <input type="reset" value="Wyczyść" class="reset typeText">
-                <input type="submit" value="Wyślij" class="send typeText">
+                <input type="reset" value="Clear" class="reset typeText">
+                <input type="submit" value="Submit" class="sendReg typeText">
             </div>
           </form>
         </div>
     </div>
 
+    <!-- Login Popout -->
+    <div id="loginPopup" class="popup">
+        <div class="window-content">
+          <span class="loginClose">&times;</span>
+          <label id="label">Log yourself!</label>
+          <form action="" class="box">
+            <div class="form_box">
+                <label for="email">E-mail: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <input class="typeText" type="email" id="emailLogin" placeholder="Type your email" required>
+                <p class="error"></p>
+            </div>
+            <div class="form_box">
+                <label for="pass1">Password: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <input class="typeText" type="password" id="passLogin" placeholder="Type your password" required>
+                <p class="error"></p>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="Login" class="sendLog typeText">
+            </div>
+          </form>
+        </div>
+    </div>
     <header>
         <div class="logo">
-            <h1>Walidator formularza</h1>
+            <h1>Place for free music!</h1>
         </div>
         <nav>
             <ul class="main_menu" >
                 <li><a class="menu_button"  onclick="changeIframe('home')">Home</a></li>
                 <li><a class="menu_button"  onclick="changeIframe('about')">About</a></li>
-                <li><a class="menu_button" id="popupButton">Registration</a></li>
-                <li><a class="menu_button" >LogIn</a></li>
+                <li><a class="menu_button" id="registrationButton">Registration</a></li>
+                <li><a class="menu_button" id="loginButton">LogIn</a></li>
                 <li><a class="menu_button" >Music List</a></li>
                 <li><a class="menu_button" >Download your list</a></li>
             </ul>
