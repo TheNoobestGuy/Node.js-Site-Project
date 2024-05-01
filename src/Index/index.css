@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body  {
+    background: #73BAC3;
+}
+
 p.error {
     color: red;
     display: flex;
@@ -17,6 +21,7 @@ p.error {
     display: flex;
     justify-content: center;
     align-items: center;
+    right: 10px;
 }
 
 .main_menu {

@@ -1,14 +1,8 @@
+// Registration window
 const registration_window = document.getElementById("registrationPopup");
 const registration_button = document.getElementById("registrationButton");
 const registrations_close = document.getElementsByClassName("registrationClose")[0];
 
-const login_window = document.getElementById("loginPopup");
-const login_button = document.getElementById("loginButton");
-const login_close = document.getElementsByClassName("loginClose")[0];
-
-const iframe = document.getElementById('Main-frame');
-
-// Registration window
 registration_button.onclick = function() {
     registration_window.style.display = "block";
 }
@@ -18,6 +12,10 @@ registrations_close.onclick = function() {
 }
 
 // Login window
+const login_window = document.getElementById("loginPopup");
+const login_button = document.getElementById("loginButton");
+const login_close = document.getElementsByClassName("loginClose")[0];
+
 login_button.onclick = function() {
     login_window.style.display = "block";
 }
@@ -26,7 +24,7 @@ login_close.onclick = function() {
     login_window.style.display = "none";
 }
 
-// Window handling
+// Popup handling
 window.onclick = function(event) {
     if (event.target == registration_window) {
         registration_window.style.display = "none";
@@ -37,6 +35,8 @@ window.onclick = function(event) {
 }
 
 // iFrame handler
+const iframe = document.getElementById('Main-frame');
+
 function changeIframe(url) {
     const currentAdress = window.location.href;
     const address = currentAdress + url;
@@ -48,8 +48,6 @@ function changeIframe(url) {
         iframe.style.opacity = '1';
     }, 300)
 }
-
-
 
 // Validator of registration
 const userName = document.querySelector('#username')
@@ -118,13 +116,11 @@ function checkPassword() {
 }
 
 function clearReg() {
-    // Wyczyść tekst
     userName.value = '';
     email.value = '';
     password1.value = '';
     password2.value = '';
 
-    // Ukryj błędy
     showOrHideErrorMessage(userName, '');
     showOrHideErrorMessage(email, '');
     showOrHideErrorMessage(password1, '');
@@ -209,11 +205,9 @@ passowrdLogin.addEventListener('input', () => {
 })
 
 function clearLog() {
-    // Wyczyść tekst
     emailLogin.value = '';
     passowrdLogin.value = '';
 
-    // Ukryj błędy
     showOrHideErrorMessage(emailLogin, '');
     showOrHideErrorMessage(passowrdLogin, '');
 }
