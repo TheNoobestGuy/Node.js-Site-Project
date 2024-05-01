@@ -4,6 +4,21 @@ body {
     height: 600px;
 }
 
+.heart {
+    display: none;
+    color: black;
+    position: absolute;
+    font-size: 60px;
+    font-weight: bold;
+    left: 58%;
+    top: 20%;
+}
+
+.heart:hover,
+.heart:focus {
+    cursor: pointer;
+}
+
 .text-white {
     color: white;
 }

@@ -1,6 +1,8 @@
 const inputKeywords = document.getElementById("input-keywords");
 const submitButton = document.getElementById("submit");
 const musicContainer = document.querySelector(".music_container");
+const heart = document.querySelector(".heart");
+var running = false;
 
 submitButton.addEventListener("click", () => {
     getSongData();
@@ -19,30 +21,46 @@ async function getSongData() {
     const response = await fetch(url, options);
     const results = await response.json();
 
-    setSongDataDisplay(results);
+    await setSongDataDisplay(results);
 }
 
-function setSongDataDisplay(results) {
+async function setSongDataDisplay(results) {
+    musicContainer.innerHTML = "";
     musicContainer.innerHTML = `
         <div class="music-card">
-        <div class="col">
             <div>
-                <img src=${results.tracks.hits[0].track.images.coverart} alt="" class="song-img" id="song-img">
-                <h4 id="title">${results.tracks.hits[0].track.title}</h4>
-                <a herf=${results.tracks.hits[0].track.url} id="url">${results.tracks.hits[0].track.url}</a>
+                <div>
+                    <img src=${results.tracks.hits[0].track.images.coverart} alt="" class="song-img" id="song-img">
+                    <h4 id="title">${results.tracks.hits[0].track.title}</h4>
+                    <a href=${results.tracks.hits[0].track.url}'>${results.tracks.hits[0].track.url}</a>
+                </div>
+                <br>
+                <hr>
+                <br>
+                <div>
+                    <img src=${results.tracks.hits[0].track.images.background} alt="" class="artist-img" id="artist-img">
+                    <p id="artist-text">${results.tracks.hits[0].track.subtitle}</p>
+                </div>
             </div>
-            <hr>
-            <div>
-                <img src=${results.tracks.hits[0].track.images.background} alt="" class="artist-img" id="artist-img">
-                <p id="artist-text">${results.tracks.hits[0].track.subtitle}</p>
-            </div>
-        </div>
         </div>
     `;
-}
 
-/*
-fetch('http://localhost:3000/api/data')
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));*/
+    if (musicContainer)
+    {
+        heart.style.display = "block";
+        heart.style.color = "black";
+    }
+
+    if (!running) {
+        heart.addEventListener('click', () => {
+            if (heart.style.color == "red") {
+                heart.style.color = "black";
+            }
+            else {
+                heart.style.color = "red";
+            }
+        })
+    }
+
+    running = true;
+}

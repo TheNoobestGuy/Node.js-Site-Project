@@ -18,19 +18,7 @@ app.use(express.static(AboutPath));
 app.use(express.static(MusicListPath));
 app.use(express.static(__dirname));
 
-// Sites 
-/*
-app.get('/api/data', async (req, res) => {
-    try {
-      const response = await axios.get('https://api.deezer.com/search?q=${searchQuery}&limit=10&output=json');
-      res.json(response.data);
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('An error occurred while fetching data from the API');
-    }
-});
-*/
-
+// Sites
 app.get('/', (req, res) => {
     res.sendFile(path.join(IndexPath, 'index.html'));
 });

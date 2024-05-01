@@ -4,6 +4,7 @@ const registration_button = document.getElementById("registrationButton");
 const registrations_close = document.getElementsByClassName("registrationClose")[0];
 
 registration_button.onclick = function() {
+    clearReg();
     registration_window.style.display = "block";
 }
 
@@ -17,6 +18,7 @@ const login_button = document.getElementById("loginButton");
 const login_close = document.getElementsByClassName("loginClose")[0];
 
 login_button.onclick = function() {
+    clearLog();
     login_window.style.display = "block";
 }
 
