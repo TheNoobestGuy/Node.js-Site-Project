@@ -44,7 +44,7 @@ function changeIframe(url) {
     iframe.style.opacity = '0';
 
     setTimeout(() => {
-        iframe.src = adress;
+        iframe.src = address;
         iframe.style.opacity = '1';
     }, 300)
 }
