@@ -1,6 +1,5 @@
 // Express initialization
 const express = require('express');
-const axios = require('axios');
 const path = require('path');
 const app = express();
 const PORT = 3000;
@@ -10,13 +9,16 @@ const IndexPath = path.join(__dirname, '\\src\\', '\\Index\\');
 const HomePath = path.join(__dirname, '\\src\\', '\\Home\\');
 const AboutPath = path.join(__dirname, '\\src\\', '\\About\\');
 const MusicListPath = path.join(__dirname, '\\src\\', '\\MusicList\\');
+const yourListPath = path.join(__dirname, '\\src\\', '\\YourList\\');
+const dataBasesPath = path.join(__dirname, '\\src\\', '\\DataBases\\');
 
 // Serve static files from the "public" directory
 app.use(express.static(IndexPath));
 app.use(express.static(HomePath));
 app.use(express.static(AboutPath));
 app.use(express.static(MusicListPath));
-app.use(express.static(__dirname));
+app.use(express.static(yourListPath));
+app.use(express.static(dataBasesPath));
 
 // Sites
 app.get('/', (req, res) => {
@@ -33,6 +35,10 @@ app.get('/about', (req, res) => {
 
 app.get('/musicList', (req, res) => {
     res.sendFile(path.join(MusicListPath, 'musicList.html'));
+});
+
+app.get('/yourList', (req, res) => {
+    res.sendFile(path.join(yourListPath, 'yourlist.html'));
 });
 
 // Listener

@@ -4,6 +4,13 @@ const musicContainer = document.querySelector(".music_container");
 const heart = document.querySelector(".heart");
 var running = false;
 
+// DataBase features
+let musicDataBase = [];
+let addedSong = false;
+let artist = "";
+let title = "";
+let url = "";
+
 submitButton.addEventListener("click", () => {
     getSongData();
 })
@@ -21,10 +28,10 @@ async function getSongData() {
     const response = await fetch(url, options);
     const results = await response.json();
 
-    await setSongDataDisplay(results);
+    setSongDataDisplay(results);
 }
 
-async function setSongDataDisplay(results) {
+function setSongDataDisplay(results) {
     musicContainer.innerHTML = "";
     musicContainer.innerHTML = `
         <div class="music-card">
@@ -51,6 +58,10 @@ async function setSongDataDisplay(results) {
         heart.style.color = "black";
     }
 
+    artist = `${results.tracks.hits[0].track.subtitle}`;
+    title = `${results.tracks.hits[0].track.title}`;
+    url = `${results.tracks.hits[0].track.url}`;
+
     if (!running) {
         heart.addEventListener('click', () => {
             if (heart.style.color == "red") {
@@ -58,6 +69,15 @@ async function setSongDataDisplay(results) {
             }
             else {
                 heart.style.color = "red";
+                addedSong = true;
+            }
+
+            if (addedSong)
+            {
+                let song = [artist, title, url];
+                musicDataBase.push(song);
+                addedSong = false;
+                console.log(musicDataBase);
             }
         })
     }
