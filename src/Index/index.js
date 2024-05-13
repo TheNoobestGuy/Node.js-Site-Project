@@ -160,8 +160,75 @@ sendReg.addEventListener('click', (e) => {
 
     if(correctness == 1 && !userNameEmpty && !emailEmpty && !password1Empty && !password2Empty)
     {
-        alert('You has been registered!');
-        clearReg();
+        let user = [ userName.value, email.value, password1.value ];
+
+        fetch('/data')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          return response.json();
+        })
+        .then(data => {
+            let registeredList = data.RegisteredUsers;
+            let onList = false;
+            
+            let userNameIssue = false;
+            let emailIssue = false;
+    
+            for (let i = 0; i < registeredList.length; i++)
+            {
+                if (user[0] == registeredList[i][0])
+                {
+                    onList = true;
+                    userNameIssue = true;
+                    break;
+                }
+                else if (user[1] == registeredList[i][1])
+                {
+                    onList = true;
+                    emailIssue = true;
+                    break;
+                }
+            }
+
+            if (!onList)
+            {
+                // Pass registered user
+                fetch('http://localhost:3000/register', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ data: user })
+                })
+                  .catch(error => {
+                    console.error(error);
+                }); 
+            
+                alert('You has been registered!');
+            }
+            else
+            {
+                if (userNameIssue)
+                {
+                    alert('User name is occupied!');
+                }
+                else if (emailIssue)
+                {
+                    alert('Email is already registered!');
+                }
+                else
+                {
+                    alert('User is already registered!');
+                }
+            }
+
+            clearReg();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
     else if(userNameEmpty && emailEmpty && password1Empty && password2Empty)
     {
@@ -224,8 +291,81 @@ sendLog.addEventListener('click', (e) => {
 
     if(correctness == 1 && !emailEmpty && !passwordEmpty)
     {
-        alert('You has been loged!');
-        clearLog();
+        let user = [ emailLogin.value, passowrdLogin.value ];
+
+        let emailCorrectness = false;
+        let passwordCorrectness = false;
+
+        fetch('/data')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          return response.json();
+        })
+        .then(data => {
+            let registeredList = data.RegisteredUsers;
+            let onList = false;
+    
+            for (let i = 0; i < registeredList.length; i++)
+            {
+                if (user[0] == registeredList[i][1])
+                {
+                    emailCorrectness = true;
+
+                    if (user[1] == registeredList[i][2])
+                    {
+                        passwordCorrectness = true;
+                    }
+                    
+                    break;
+                }
+            }
+
+            if (emailCorrectness && passwordCorrectness)
+            {
+                onList = true;
+            }
+
+            if (onList)
+            {
+                alert('You has been loged!');
+
+                logged.innerHTML = `Logged:
+                                    <br><br> ${user[0]}`;
+
+                fetch('http://localhost:3000/logIn', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ data: user[0] })
+                  })
+                    .catch(error => {
+                      console.error(error);
+                  });
+            }
+            else
+            {
+                if (!emailCorrectness)
+                {
+                    alert('Incorrect email!');
+                }
+                else if (!passwordCorrectness)
+                {
+                    alert('Incorrect password!');
+                }
+                else
+                {
+                    alert('Incorrect data! User doesnt exist in database.');
+                }
+            }
+
+            clearLog();
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
     }
     else if(emailEmpty && passwordEmpty)
     {
@@ -242,3 +382,24 @@ sendLog.addEventListener('click', (e) => {
 
     correctness = 1; 
 })
+
+// Check does anyone is logged
+const logged = document.getElementById("text-log");
+
+fetch('/data')
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
+})
+.then(data => {
+    for (let i = 0; i < data.Logged.length; i++)
+    {
+        logged.innerHTML = `Logged:
+        <br><br> ${data.Logged[i]}`;
+    }
+})
+.catch(error => {
+  console.error('Error:', error);
+});

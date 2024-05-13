@@ -18,12 +18,21 @@ p.error {
 }
 
 .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 10px;
+    display: inline-block;
+    transform: translate(200%, 0%);
 }
 
+/* Loged or unloged */
+.log {
+    display: inline;
+    float: right;
+}
+  
+#text-log {
+    color: white;
+}
+
+/* Main menu */
 .main_menu {
     list-style-type: none;
     background-color: #333;

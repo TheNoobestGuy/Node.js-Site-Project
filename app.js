@@ -4,6 +4,75 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+// Define a global array
+const data = {
+    SongsList: [],
+    RegisteredUsers: [],
+    Logged: []
+};
+
+// Middleware to parse JSON and share the array
+app.use(express.json());
+app.use((req, res, next) => {
+  req.data = data;
+  next();
+});
+
+// Routes to add and remove data
+app.post('/addSong', (req, res) => {
+    let notSame = true;
+
+    for (let i = 0; i < data.SongsList.length; i++)
+    {
+        if (req.body.data[2] == data.SongsList[i][2])
+        {
+            notSame = false;
+        }
+    }
+
+    if (notSame)
+    {
+        data.SongsList.push(req.body.data);
+    }
+});
+
+app.post('/removeSong', (req, res) => {
+    for (let i = 0; i < data.SongsList.length; i++)
+    {
+        if (req.body.data == data.SongsList[i][0])
+        {
+            data.SongsList.splice(i, 1);
+            break;
+        }
+    }
+});
+
+app.post('/register', (req, res) => {
+    let notSame = true;
+
+    for (let i = 0; i < data.RegisteredUsers.length; i++)
+    {
+        if (req.body.data[0] == data.RegisteredUsers[i][0])
+        {
+            notSame = false;
+        }
+    }
+
+    if (notSame)
+    {
+        data.RegisteredUsers.push(req.body.data);
+    }
+});
+
+app.post('/logIn', (req, res) => {
+    data.Logged[0] = (req.body.data);
+});
+
+// Route to retrieve the shared array
+app.get('/data', (req, res) => {
+  res.send(data);
+});
+
 // Paths
 const IndexPath = path.join(__dirname, '\\src\\', '\\Index\\');
 const HomePath = path.join(__dirname, '\\src\\', '\\Home\\');

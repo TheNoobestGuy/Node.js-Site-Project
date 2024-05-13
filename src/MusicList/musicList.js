@@ -5,8 +5,8 @@ const heart = document.querySelector(".heart");
 var running = false;
 
 // DataBase features
-let musicDataBase = [];
 let addedSong = false;
+let removedSong = false;
 let artist = "";
 let title = "";
 let url = "";
@@ -32,21 +32,25 @@ async function getSongData() {
 }
 
 function setSongDataDisplay(results) {
+    artist = `${results.tracks.hits[0].track.subtitle}`;
+    title = `${results.tracks.hits[0].track.title}`;
+    url = `${results.tracks.hits[0].track.url}`;
+
     musicContainer.innerHTML = "";
     musicContainer.innerHTML = `
         <div class="music-card">
             <div>
                 <div>
                     <img src=${results.tracks.hits[0].track.images.coverart} alt="" class="song-img" id="song-img">
-                    <h4 id="title">${results.tracks.hits[0].track.title}</h4>
-                    <a href=${results.tracks.hits[0].track.url}'>${results.tracks.hits[0].track.url}</a>
+                    <h4 id="title">${title}</h4>
+                    <a href=${url}'>${url}</a>
                 </div>
                 <br>
                 <hr>
                 <br>
                 <div>
                     <img src=${results.tracks.hits[0].track.images.background} alt="" class="artist-img" id="artist-img">
-                    <p id="artist-text">${results.tracks.hits[0].track.subtitle}</p>
+                    <p id="artist-text">${artist}</p>
                 </div>
             </div>
         </div>
@@ -56,16 +60,41 @@ function setSongDataDisplay(results) {
     {
         heart.style.display = "block";
         heart.style.color = "black";
-    }
 
-    artist = `${results.tracks.hits[0].track.subtitle}`;
-    title = `${results.tracks.hits[0].track.title}`;
-    url = `${results.tracks.hits[0].track.url}`;
+        fetch('/data')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          return response.json();
+        })
+        .then(data => {
+            let musicList = data.SongsList;
+            let onList = false;
+    
+            for (let i = 0; i < musicList.length; i++)
+            {
+                if (url == musicList[i][2])
+                {
+                    onList = true;
+                }
+            }
+
+            if (onList)
+            {
+                heart.style.color = "red";   
+            }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
 
     if (!running) {
         heart.addEventListener('click', () => {
             if (heart.style.color == "red") {
                 heart.style.color = "black";
+                removedSong = true;
             }
             else {
                 heart.style.color = "red";
@@ -75,9 +104,34 @@ function setSongDataDisplay(results) {
             if (addedSong)
             {
                 let song = [artist, title, url];
-                musicDataBase.push(song);
+
+                fetch('http://localhost:3000/addSong', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ data: song })
+                })
+                  .catch(error => {
+                    console.error(error);
+                });
+
                 addedSong = false;
-                console.log(musicDataBase);
+            }
+            else if (removedSong)
+            {
+                fetch('http://localhost:3000/removeSong', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ data: artist })
+                })
+                  .catch(error => {
+                    console.error(error);
+                });
+
+                removedSong = false;
             }
         })
     }
