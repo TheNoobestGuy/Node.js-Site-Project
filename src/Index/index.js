@@ -205,7 +205,9 @@ sendReg.addEventListener('click', (e) => {
                   .catch(error => {
                     console.error(error);
                 }); 
-            
+                
+                registration_window.style.display = 'none';
+
                 alert('You has been registered!');
             }
             else
@@ -329,6 +331,8 @@ sendLog.addEventListener('click', (e) => {
 
             if (onList)
             {
+                login_window.style.display = 'none';
+
                 alert('You has been loged!');
 
                 logged.innerHTML = `Logged:
@@ -399,6 +403,8 @@ fetch('/data')
         logged.innerHTML = `Logged:
         <br><br> ${data.Logged[i]}`;
     }
+
+
 })
 .catch(error => {
   console.error('Error:', error);
